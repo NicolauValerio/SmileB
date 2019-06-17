@@ -1,0 +1,112 @@
+=========================== MENU ================================
+import React from 'react'
+import { createDrawerNavigator } from 'react-navigation'
+import Contador from './componentes/Contador'
+import Mapa from './componentes/Mapa'
+
+export default createDrawerNavigator ({
+    Contador: {
+        screen: () => <Contador/>
+    },
+
+    Mapa: {
+        screen: () => <Mapa/>
+    }
+
+    
+
+}, { drawerWidth: 300 })
+
+============================ MAPA =================================
+import React, { Component } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+
+import MapView from 'react-native-maps'
+
+export default class Mapa extends Component {
+        
+    render() { 
+        return (
+            <MapView
+                    initialRegion={{
+                        latitude: -27.2106710,
+                        longitude: -49.6362700,
+                        latitudeDelta: 0.0042,
+                        longitudeDelta: 0.0031
+                    }}
+                    style={styles.mapView}
+   
+            />
+        )
+    }
+}
+
+const styles = StyleSheet.create({
+    mapView: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    }
+})
+
+====================================== CONTADOR ==================================
+
+import React, { Component } from 'react'
+import { View, Text, TouchableHighlight } from 'react-native'
+import Padrao from '../estilo/Padrao';
+
+export default class Contador extends Component {
+    
+    state = {
+        numero: 0
+    }
+    
+    maisUm = () => {
+        this.setState ({ numero: this.state.numero + 1})
+    }
+
+    limpar = () => {
+        if (this.state.numero > 0){
+            this.setState({ numero: this.state.numero - 1})
+        }
+        else {
+          alert("Você não pode mais descurtir, pois o número de curtidas tem que ser maior ou igual a 0!");    
+        }
+    }
+
+    render () {
+        return (
+            <View>
+                <Text style={{fontSize: 30, textAlign: 'center'}}>Curtidas: {this.state.numero}</Text>
+                <TouchableHighlight
+                    onPress={this.maisUm}>
+                        <Text style={Padrao.ex}>Curtir</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    onPress={this.limpar}>
+                        <Text style={Padrao.ex}>Descurtir</Text>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+}
+
+========================================= ESTILO ================================================
+
+import { StyleSheet } from 'react-native'
+
+// ESTILO DE LETRA E MARGENS
+export default StyleSheet.create({
+    ex: {
+        textAlign: 'center',
+        paddingHorizontal: 15,
+        marginVertical: 5,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: '#222',
+        fontSize: 24,
+        fontWeight: 'bold',
+    }
+})
